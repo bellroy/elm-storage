@@ -46,13 +46,31 @@ import Json.Encode as Json
     import Storage exposing (Storage)
     import Storage.Value as Value
 
-    configuration : Storage
+    configuration: Storage
     configuration =
-        Storage.fromList
-            [ ( "amount_of_coffee_consumed", Value.int 5 )
-            , ( "booleans_enabled", Value.bool True )
-            , ( "json_enabled", Value.json (Encode.bool True) )
-            ]
+        Storage.fromList [
+        ("config.item.a", Value.string "some value")
+        , ("config.item.b", Value.float 1.5)
+        ]
+
+
+    Storage.getString "config.item.a" configuration
+    --> Just "some value"
+
+    Storage.getString "config.item.b" configuration
+    --> Nothing
+
+    Storage.getStringUnsafe "config.item.a" configuration
+    --> "some value"
+
+    Storage.getStringUnsafe "config.item.b" configuration
+    --> "1.5"
+
+    Storage.getFloat "config.item.a" configuration
+    --> Nothing
+
+    Storage.getFloat "config.item.b" configuration
+    --> Just "1.5"
 
 -}
 type alias Storage =
