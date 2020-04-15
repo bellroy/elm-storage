@@ -4,7 +4,12 @@ module Internal.Storage.Value exposing
     , decode
     , encode
     , equals
+    , toBool
+    , toFloat
+    , toInt
+    , toJson
     , toString
+    , toStringUnsafe
     )
 
 import Internal.Storage.Value.Bool as ValueBool exposing (ValueBool)
@@ -96,12 +101,12 @@ compare a b =
 
         _ ->
             Basics.compare
-                (toString a)
-                (toString b)
+                (toStringUnsafe a)
+                (toStringUnsafe b)
 
 
-toString : Value -> String
-toString value =
+toStringUnsafe : Value -> String
+toStringUnsafe value =
     case value of
         ValueEmpty ->
             ""
@@ -120,3 +125,53 @@ toString value =
 
         ValueJson a ->
             ValueJson.toString a
+
+
+toBool : Value -> Maybe Bool
+toBool a =
+    case a of
+        ValueBool a2 ->
+            Just <| ValueBool.toBool a2
+
+        _ ->
+            Nothing
+
+
+toFloat : Value -> Maybe Float
+toFloat a =
+    case a of
+        ValueFloat a2 ->
+            Just <| ValueFloat.toFloat a2
+
+        _ ->
+            Nothing
+
+
+toInt : Value -> Maybe Int
+toInt a =
+    case a of
+        ValueInt a2 ->
+            Just <| ValueInt.toInt a2
+
+        _ ->
+            Nothing
+
+
+toString : Value -> Maybe String
+toString a =
+    case a of
+        ValueString a2 ->
+            Just <| ValueString.toString a2
+
+        _ ->
+            Nothing
+
+
+toJson : Value -> Maybe Encode.Value
+toJson a =
+    case a of
+        ValueJson a2 ->
+            Just <| ValueJson.encode a2
+
+        _ ->
+            Nothing

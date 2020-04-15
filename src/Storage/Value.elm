@@ -3,7 +3,7 @@ module Storage.Value exposing
     , empty, string, int, float, bool, json
     , compare, equals
     , encode, decode
-    , toString
+    , toString, toBool, toFloat, toInt, toJson, toStringUnsafe
     )
 
 {-|
@@ -26,9 +26,9 @@ module Storage.Value exposing
 @docs encode, decode
 
 
-# Debug
+# Convert
 
-@docs toString
+@docs toString, toBool, toFloat, toInt, toJson, toStringUnsafe
 
 -}
 
@@ -105,28 +105,97 @@ equals =
 
 {-| Return a String representation of a Value.
 
-    toString empty
+    toStringUnsafe empty
     --> ""
 
-    toString (bool True)
+    toStringUnsafe (bool True)
     --> "true"
 
-    toString (float 1.6)
+    toStringUnsafe (float 1.6)
     --> "1.6"
 
-    toString (int 2)
+    toStringUnsafe (int 2)
     --> "2"
 
-    toString (string "foo")
+    toStringUnsafe (string "foo")
     --> "foo"
 
-    toString (json (Encode.object [ ("foo", Encode.string "bar" ) ]))
+    toStringUnsafe (json (Encode.object [ ("foo", Encode.string "bar" ) ]))
     --> "{\"foo\":\"bar\"}"
 
 -}
-toString : Value -> String
+toStringUnsafe : Value -> String
+toStringUnsafe =
+    Value.toStringUnsafe
+
+
+{-| Safely convert Value to a String
+
+    toString (string "foo")
+    --> Just "foo"
+
+    toString (bool True)
+    --> Nothing
+
+-}
+toString : Value -> Maybe String
 toString =
     Value.toString
+
+
+{-| Safely convert Value to a Bool
+
+    toBool (bool True)
+    --> Just True
+
+    toBool (string "foo")
+    --> Nothing
+
+-}
+toBool : Value -> Maybe Bool
+toBool =
+    Value.toBool
+
+
+{-| Safely convert Value to a Float
+
+    toFloat (float 1.6  )
+    --> Just 1.6
+
+    toFloat (int 1)
+    --> Nothing
+
+-}
+toFloat : Value -> Maybe Float
+toFloat =
+    Value.toFloat
+
+
+{-| Safely convert Value to an Int
+
+    toInt (int 1  )
+    --> Just 1
+
+    toInt (float 1.0)
+    --> Nothing
+
+-}
+toInt : Value -> Maybe Int
+toInt =
+    Value.toInt
+
+
+{-| Safely convert Value to a Json.Encode.Value
+toJson (json Encode.null )
+--> Just Encode.null
+
+    toJson (bool True)
+    --> Nothing
+
+-}
+toJson : Value -> Maybe Json.Value
+toJson =
+    Value.toJson
 
 
 {-| Encode a Storage.Value as a Json.Encode.Value

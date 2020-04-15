@@ -1,7 +1,7 @@
 module Storage exposing
     ( Storage
     , empty, singleton, insert, update, remove
-    , isEmpty, member, get, size
+    , isEmpty, member, size, get, getBool, getFloat, getInt, getString, getJson, getStringUnsafe
     , keys, values, toList, fromList
     , union, intersect, diff, merge
     )
@@ -22,7 +22,7 @@ module Storage exposing
 
 # Query
 
-@docs isEmpty, member, get, size
+@docs isEmpty, member, size, get, getBool, getFloat, getInt, getString, getJson, getStringUnsafe
 
 
 # Lists
@@ -38,6 +38,7 @@ module Storage exposing
 
 import Internal.Storage as Storage
 import Internal.Storage.Value exposing (Value)
+import Json.Encode as Json
 
 
 {-| A storage container of keys and values.
@@ -175,6 +176,54 @@ This is useful when you are not sure if a key will be in the Storage.
 get : String -> Storage -> Maybe Value
 get =
     Storage.get
+
+
+{-| Safely get the String associated with a key. If the key is not found OR if
+the value is not a String, return Nothing.
+-}
+getString : String -> Storage -> Maybe String
+getString =
+    Storage.getString
+
+
+{-| Safely get the Bool associated with a key. If the key is not found OR if
+the value is not a Bool, return Nothing.
+-}
+getBool : String -> Storage -> Maybe Bool
+getBool =
+    Storage.getBool
+
+
+{-| Safely get the Float associated with a key. If the key is not found OR if
+the value is not a Float, return Nothing.
+-}
+getFloat : String -> Storage -> Maybe Float
+getFloat =
+    Storage.getFloat
+
+
+{-| Safely get the Int associated with a key. If the key is not found OR if
+the value is not a Int, return Nothing.
+-}
+getInt : String -> Storage -> Maybe Int
+getInt =
+    Storage.getInt
+
+
+{-| Safely get the Json associated with a key. If the key is not found OR if
+the value is not a Json, return Nothing.
+-}
+getJson : String -> Storage -> Maybe Json.Value
+getJson =
+    Storage.getJson
+
+
+{-| Unsafely get **a** String associated with a key. If the key is not found
+return an empty String ("")
+-}
+getStringUnsafe : String -> Storage -> String
+getStringUnsafe =
+    Storage.getStringUnsafe
 
 
 {-| Determine the number of String-Value pairs in the Storage container.

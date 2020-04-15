@@ -4,6 +4,12 @@ module Internal.Storage exposing
     , empty
     , fromList
     , get
+    , getBool
+    , getFloat
+    , getInt
+    , getJson
+    , getString
+    , getStringUnsafe
     , insert
     , intersect
     , isEmpty
@@ -20,7 +26,8 @@ module Internal.Storage exposing
     )
 
 import Dict exposing (Dict)
-import Internal.Storage.Value exposing (Value)
+import Internal.Storage.Value as Value exposing (Value)
+import Json.Encode as Json
 
 
 type Storage
@@ -99,6 +106,46 @@ member =
 get : String -> Storage -> Maybe Value
 get =
     fold << Dict.get
+
+
+getMap : (Value -> Maybe a) -> String -> Storage -> Maybe a
+getMap f key =
+    fold
+        (Dict.get key
+            >> Maybe.andThen f
+        )
+
+
+getString : String -> Storage -> Maybe String
+getString =
+    getMap Value.toString
+
+
+getBool : String -> Storage -> Maybe Bool
+getBool =
+    getMap Value.toBool
+
+
+getFloat : String -> Storage -> Maybe Float
+getFloat =
+    getMap Value.toFloat
+
+
+getInt : String -> Storage -> Maybe Int
+getInt =
+    getMap Value.toInt
+
+
+getJson : String -> Storage -> Maybe Json.Value
+getJson =
+    getMap Value.toJson
+
+
+getStringUnsafe : String -> Storage -> String
+getStringUnsafe key storage =
+    get key storage
+        |> Maybe.map Value.toStringUnsafe
+        |> Maybe.withDefault ""
 
 
 size : Storage -> Int
