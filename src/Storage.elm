@@ -265,6 +265,12 @@ intersect =
 
 
 {-| Keep a String-value pair when its key does not appear in the second Storage container.
+
+    diff
+        ( fromList [("a", Value.string "a1"), ("c", Value.string "c1")] )
+        ( fromList [("a", Value.string "a2"), ("b2", Value.string "b2")] )
+    --> fromList [ ("c", Value.string "c1") ]
+
 -}
 diff : Storage -> Storage -> Storage
 diff =
