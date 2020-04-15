@@ -252,6 +252,12 @@ union =
 
 
 {-| Keep a String-value pair when its key appears in the second Storage container. Preference is given to values in the first Storage container.
+
+    intersect
+        ( fromList [("a", Value.string "a1"), ("c", Value.string "c1")] )
+        ( fromList [("a", Value.string "a2"), ("b2", Value.string "b2")] )
+    --> fromList [ ( "a", Value.string "a1" )]
+
 -}
 intersect : Storage -> Storage -> Storage
 intersect =
