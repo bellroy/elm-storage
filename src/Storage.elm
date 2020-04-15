@@ -202,6 +202,11 @@ keys =
 
 
 {-| Get all of the values in a Storage container, in the order of their keys.
+
+    fromList [("foo", Value.string "a"), ("bar", Value.string "b")]
+        |> values
+    --> [Value.string "b", Value.string "a"]
+
 -}
 values : Storage -> List Value
 values =
@@ -209,6 +214,11 @@ values =
 
 
 {-| Convert a dictionary into an Storage container list of key-StoageItem pairs, sorted by keys.
+
+    insert "fruit" (Value.string "apple") empty
+    |> toList
+    --> [ ( "fruit", Value.string "apple" ) ]
+
 -}
 toList : Storage -> List ( String, Value )
 toList =
@@ -216,6 +226,12 @@ toList =
 
 
 {-| Convert an association list into a Storage container.
+
+    fromList [
+        ( "fruit", Value.string "apple" )
+    ]
+    --> insert "fruit" (Value.string "apple") empty
+
 -}
 fromList : List ( String, Value ) -> Storage
 fromList =
@@ -223,6 +239,12 @@ fromList =
 
 
 {-| Combine two Storage containers. If there is a collision, preference is given to the first Storage container.
+
+    union
+        ( fromList [("a", Value.string "a1"), ("c", Value.string "c1")] )
+        ( fromList [("a", Value.string "a2"), ("b2", Value.string "b2")] )
+    --> fromList [ ( "a", Value.string "a1" ), ( "b", Value.string "b2" ), ( "c", Value.string "c1" ) ]
+
 -}
 union : Storage -> Storage -> Storage
 union =
