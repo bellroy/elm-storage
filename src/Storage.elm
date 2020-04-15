@@ -180,6 +180,12 @@ get =
 
 {-| Safely get the String associated with a key. If the key is not found OR if
 the value is not a String, return Nothing.
+
+    empty
+        |> insert "fruit" (Value.string "apple")
+        |> getString "fruit"
+        --> Just "apple"
+
 -}
 getString : String -> Storage -> Maybe String
 getString =
@@ -188,6 +194,12 @@ getString =
 
 {-| Safely get the Bool associated with a key. If the key is not found OR if
 the value is not a Bool, return Nothing.
+
+    empty
+        |> insert "is.cool" (Value.bool True)
+        |> getBool "is.cool"
+        --> Just True
+
 -}
 getBool : String -> Storage -> Maybe Bool
 getBool =
@@ -196,6 +208,12 @@ getBool =
 
 {-| Safely get the Float associated with a key. If the key is not found OR if
 the value is not a Float, return Nothing.
+
+    empty
+        |> insert "velocity" (Value.float 1.6)
+        |> getFloat "velocity"
+        --> Just 1.6
+
 -}
 getFloat : String -> Storage -> Maybe Float
 getFloat =
@@ -204,6 +222,12 @@ getFloat =
 
 {-| Safely get the Int associated with a key. If the key is not found OR if
 the value is not a Int, return Nothing.
+
+    empty
+        |> insert "moons" (Value.int 1)
+        |> getInt "moons"
+        --> Just 1
+
 -}
 getInt : String -> Storage -> Maybe Int
 getInt =
