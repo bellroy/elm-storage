@@ -1,6 +1,6 @@
 {
     "type": "package",
-    "name": "tricycle/elm-storage",
+    "name": "bellroy/elm-storage",
     "summary": "A key-value container similar to Dict but stores different types of values.",
     "license": "BSD-3-Clause",
     "version": "1.0.0",
